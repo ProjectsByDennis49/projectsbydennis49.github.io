@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Zoom Dialing System</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <style>
+    body {
+      margin: 0;
+      font-family: "Times New Roman", Times, serif;
+      font-weight: bold;
+      background: #000;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      color: #fff;
+    }
+
+    .phone {
+      width: 320px;
+      max-width: 90vw;
+      background: #000;
+      border-radius: 40px;
+      padding: 30px 20px 40px;
+      box-shadow: 0 0 30px rgba(0,0,0,0.8);
+      border: 1px solid #222;
+    }
+
+    .display {
+      text-align: center;
+      margin-bottom: 25px;
+      min-height: 40px;
+    }
+
+    .number {
+      font-size: 32px;
+      letter-spacing: 2px;
+    }
+
+    .error {
+      font-size: 14px;
+      color: #ff5555;
+      margin-top: 5px;
+      height: 18px;
+    }
+
+    .keypad {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      grid-gap: 14px;
+      margin-bottom: 20px;
+    }
+
+.key {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  border: none;
+  background: #111;
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  font-size: 26px;
+  cursor: pointer;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.6);
+  transition: background 0.15s, transform 0.1s;
+
+  font-family: "Times New Roman", Times, serif !important;
+  font-weight: bold;
+}
+
+.key span.sub {
+  font-size: 10px;
+  margin-top: 4px;
+  color: #888;
+
+  font-family: "Times New Roman", Times, serif !important;
+  font-weight: bold;
+}
+
+
+    .key:active {
+      background: #333;
+      transform: scale(0.96);
+    }
+
+    .bottom-row {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 40px;
+    }
+
+    .call-btn {
+      font-family: "Times New Roman", Times, serif !important;
+      font-weight: bold;
+      width: 90px;
+      height: 90px;
+      border-radius: 50%;
+      border: none;
+      background: #2ecc71;
+      color: #fff;
+      font-size: 20px;
+      cursor: pointer;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.6);
+      transition: background 0.15s, transform 0.1s;
+    }
+
+    .call-btn:active {
+      background: #27ae60;
+      transform: scale(0.96);
+    }
+
+    .back-btn {
+      font-size: 18px;
+      color: #aaa;
+      cursor: pointer;
+    }
+
+    .back-btn:active {
+      color: #fff;
+    }
+  </style>
+</head>
+<body>
+  <div class="phone">
+    <div class="display">
+      <div class="number" id="number"></div>
+      <div class="error" id="error"></div>
+    </div>
+
+    <div class="keypad">
+      <button class="key" data-digit="1">1<span class="sub">&nbsp;</span></button>
+      <button class="key" data-digit="2">2<span class="sub">ABC</span></button>
+      <button class="key" data-digit="3">3<span class="sub">DEF</span></button>
+
+      <button class="key" data-digit="4">4<span class="sub">GHI</span></button>
+      <button class="key" data-digit="5">5<span class="sub">JKL</span></button>
+      <button class="key" data-digit="6">6<span class="sub">MNO</span></button>
+
+      <button class="key" data-digit="7">7<span class="sub">PQRS</span></button>
+      <button class="key" data-digit="8">8<span class="sub">TUV</span></button>
+      <button class="key" data-digit="9">9<span class="sub">WXYZ</span></button>
+
+      <button class="key" data-digit="*">*</button>
+      <button class="key" data-digit="0">0<span class="sub">+</span></button>
+      <button class="key" data-digit="#">#</button>
+    </div>
+
+    <div class="bottom-row">
+      <div class="back-btn" id="back">Back</div>
+      <button class="call-btn" id="call">Call</button>
+    </div>
+  </div>
+
+  <script>
+    // -----------------------------
+    // DATABASE OF ALLOWED NUMBERS
+    // -----------------------------
+    const numberDatabase = {
+      "9490424": "https://us05web.zoom.us/j/3110556048?pwd=YzFLYk55cStLTGxWUGl3WS9qMXJtZz09",
+      // EXAMPLE: "7654321": "https://example.com/roomA",
+    };
+
+    const numberEl = document.getElementById("number");
+    const errorEl = document.getElementById("error");
+    const keys = document.querySelectorAll(".key");
+    const backBtn = document.getElementById("back");
+    const callBtn = document.getElementById("call");
+
+    let digits = "";
+
+    function updateDisplay() {
+      numberEl.textContent = digits;
+      errorEl.textContent = "";
+    }
+
+    keys.forEach(key => {
+      key.addEventListener("click", () => {
+        digits += key.getAttribute("data-digit");
+        updateDisplay();
+      });
+    });
+
+    backBtn.addEventListener("click", () => {
+      digits = digits.slice(0, -1);
+      updateDisplay();
+    });
+
+    // -----------------------------
+    // OPEN MEETING IN NEW TAB
+    // -----------------------------
+    callBtn.addEventListener("click", () => {
+      if (!digits) return;
+
+      if (numberDatabase[digits]) {
+        window.open(numberDatabase[digits], "_blank");  // NEW TAB
+      } else {
+        errorEl.textContent = "Number not recognized";
+      }
+    });
+
+    updateDisplay();
+  </script>
+</body>
+</html>
