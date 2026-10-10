@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Great Dennis Browser</title>
+    <!-- Import Instrument Serif Font from Google Fonts -->
+    <link rel="preconnect" href="https://googleapis.com">
+    <link rel="preconnect" href="https://gstatic.com" crossorigin>
+    <link href="https://googleapis.com/css2?family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+    
+    <style>
+        /* Base Page Setup matching the subtle gradient/lighting of the site */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: radial-gradient(circle at top, #ffffff 0%, #f4f6f9 100%);
+            color: #0b1a30;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        /* Top Header Area matching the padding and layout */
+        .site-header {
+            width: 100%;
+            max-width: 1200px;
+            padding: 24px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-sizing: border-box;
+        }
+
+        /* Empty left branding placeholder */
+        .brand-placeholder {
+            width: 100px; 
+        }
+
+      
+        /* Hero Text Container */
+        .hero-section {
+            text-align: center;
+            margin-top: 80px;
+            margin-bottom: 40px;
+            padding: 0 20px;
+        }
+
+        .hero-title {
+            font-family: 'Instrument Serif', Georgia, serif;
+            font-size: 65px;
+            font-weight: 400;
+            color: #0c2340;
+            margin: 0 0 16px 0;
+            letter-spacing: -1px;
+        }
+
+        .hero-subtitle {
+            font-size: 18px;
+            color: #536271;
+            margin: 0;
+            letter-spacing: 0.2px;
+        }
+
+        /* Styled Input/Browser Search Container */
+        .browser-container {
+            width: 100%;
+            max-width: 760px;
+            padding: 0 20px;
+            box-sizing: border-box;
+            margin-bottom: 20px;
+        }
+
+        /* Interactive Address Pill Input Container */
+        .address-bar-wrapper {
+            background: #ffffff;
+            border: 1px solid #d0d5dd;
+            border-radius: 40px;
+            padding: 8px 10px 8px 24px;
+            display: flex;
+            align-items: center;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
+            transition: box-shadow 0.2s ease, border-color 0.2s ease;
+        }
+
+        .address-bar-wrapper:focus-within {
+            border-color: #002147;
+            box-shadow: 0 4px 24px rgba(0, 33, 71, 0.08);
+        }
+
+        .address-input {
+            flex-grow: 1;
+            border: none;
+            outline: none;
+            font-size: 16px;
+            color: #0c2340;
+            padding: 12px 0;
+            background: transparent;
+        }
+
+        .address-input::placeholder {
+            color: #8c9ba5;
+        }
+
+        /* Circular Action Arrow Navigation Button */
+        .go-btn {
+            background-color: #002147;
+            color: white;
+            border: none;
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background-color 0.2s ease;
+            flex-shrink: 0;
+        }
+
+        .go-btn:hover {
+            background-color: #003366;
+        }
+
+        .go-btn svg {
+            width: 18px;
+            height: 18px;
+            fill: none;
+            stroke: currentColor;
+            stroke-width: 2.5;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+
+        /* Hint Text beneath the search bar */
+        .tab-hint {
+            font-size: 14px;
+            color: #8c9ba5;
+            text-align: center;
+            margin-top: 12px;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Main Typographic Hero Area -->
+    <section class="hero-section">
+        <h1 class="hero-title">Hello Great Dennis</h1>
+        <p class="hero-subtitle">Whatever website you need, start here.</p>
+    </section>
+
+    <!-- Navigation Search Bar Module -->
+    <div class="browser-container">
+        <div class="address-bar-wrapper">
+            <input type="text" id="addressInput" class="address-input" placeholder="Type your input here" autofocus />
+            <button onclick="navigateToNewTab()" class="go-btn" aria-label="Open in new tab">
+                <svg viewBox="0 0 24 24">
+                    <line x1="5" y1="12" x2="19" y2="12"></line>
+                    <polyline points="12 5 19 12 12 19"></polyline>
+                </svg>
+            </button>
+        </div>
+        <div class="tab-hint">Press Enter or click the arrow to open in a new tab.</div>
+    </div>
+
+    <script>
+        // The hidden destination URL prefix running quietly behind the scenes
+        const hiddenBaseUrl = "https://projectsbydennis49.github.io//";
+        const addressInput = document.getElementById('addressInput');
+
+        function navigateToNewTab() {
+            let typedInput = addressInput.value.trim();
+            
+            //Clean up any double-slashes if typed manually
+                if (typedInput.startsWith('/')) {
+                typedInput = typedInput.substring(1);
+            }
+
+            // Quietly join the input directly onto the base URL behind the scenes
+            const targetUrl = hiddenBaseUrl + typedInput;
+
+            // Launch the built URL inside a brand-new browser tab
+            window.open(targetUrl, '_blank');
+        }
+
+        // Process search input submit triggers via Enter keypress
+        addressInput.addEventListener('keypress', function (e) {
+            if (e.key === 'Enter') {
+                navigateToNewTab();
+            }
+        });
+    </script>
+
+</body>
+</html>
